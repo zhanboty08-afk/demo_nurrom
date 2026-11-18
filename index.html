@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f6f5f2" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; form-action 'self'; upgrade-insecure-requests" />
+    <meta
+      name="description"
+      content="Столы и стулья NURROOM для дома и офиса. Цены и характеристики в каталоге; наличие, оплату и доставку согласуем перед заказом."
+    />
+    <title>NURROOM — столы и стулья для дома и офиса</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="theme.css" />
+  </head>
+  <body>
+    <header class="header">
+      <a class="logo" href="#top">NURROOM<span>.</span></a>
+      <nav id="siteNav" aria-label="Основная навигация">
+        <a href="#catalog">Каталог</a><a href="#delivery">Доставка и оплата</a
+        ><a href="#faq">Вопросы</a><a href="#about">О NURROOM</a>
+        <a id="menuWhatsapp" class="mobile-whatsapp" target="_blank" rel="noopener noreferrer" hidden>Написать в WhatsApp</a>
+      </nav>
+      <a id="headerWhatsapp" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp" hidden>WhatsApp</a>
+      <div class="header-actions">
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-label="Переключить тему"
+        >
+          ☾<span>Тема</span></button
+        ><button class="cart-button" id="openCart">
+          Корзина <span id="cartCount">0</span></button
+        ><button
+          class="mobile-menu"
+          id="mobileMenu"
+          type="button"
+          aria-label="Открыть меню"
+          aria-controls="siteNav"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+      </div>
+    </header>
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="kicker">ДЛЯ ДОМА И ОФИСА</p>
+          <h1>Столы и стулья<br />для дома и <em>офиса.</em></h1>
+          <p class="hero-text">
+            Выбирайте по цене, материалу и цвету. Размер и наличие указаны в карточке, если продавец добавил эти данные; оплату и доставку подтвердим перед заказом.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#catalog">Смотреть каталог <span>↘</span></a>
+            <a class="outline-btn" href="#sizeFilter">Подобрать по размеру</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Фото товара из каталога">
+          <img id="heroProductImage" src="assets/nurroom-hero.jpg" alt="Обеденный стол и стулья NURROOM в светлом интерьере" width="1023" height="1365" fetchpriority="high" />
+        </div>
+      </section>
+      <section class="catalog section" id="catalog">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">КАТАЛОГ NURROOM</p>
+            <h2>Столы и стулья NURROOM</h2>
+          </div>
+          <p>
+            Сравните цену, материал и цвет.<br />Размер и наличие — в карточке, если указаны.
+          </p>
+        </div>
+        <div class="catalog-tools">
+          <div class="filters" id="filters"></div>
+          <div class="catalog-facets" aria-label="Фильтры каталога">
+            <div class="filter-field"><span id="materialFilterLabel">Материал</span><select id="materialFilter" aria-label="Фильтр по материалу"><option value="">Любой материал</option></select></div>
+            <div class="filter-field"><span id="colorFilterLabel">Цвет</span><select id="colorFilter" aria-label="Фильтр по цвету"><option value="">Любой цвет</option></select></div>
+            <label>Размер<input id="sizeFilter" type="search" placeholder="Например, 120 × 80" aria-label="Поиск по размеру"></label>
+            <div class="filter-field"><span id="availabilityFilterLabel">Наличие</span><select id="availabilityFilter" aria-label="Фильтр по наличию"><option value="">Любое наличие</option></select></div>
+          </div>
+          <div class="tools-right"><select class="sort-select" id="sortSelect" aria-label="Сортировка"><option value="default">По умолчанию</option><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select><label class="search-box"
+            ><span>⌕</span
+            ><input
+              id="searchInput"
+              placeholder="Найти товар..."
+              aria-label="Поиск товаров"
+          /></label></div>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+      <section class="trust-strip" aria-label="Информация перед покупкой">
+        <div><strong>Цена</strong><span>Указана за один стол или стул в карточке товара.</span></div>
+        <div><strong>Параметры</strong><span>Материал, цвет и размер — в карточке, если указаны.</span></div>
+        <div><strong>Перед заказом</strong><span>Подтверждаем наличие, оплату и условия доставки.</span></div>
+      </section>
+      <section class="delivery section" id="delivery">
+        <p class="kicker">ПОСЛЕ ОФОРМЛЕНИЯ ЗАЯВКИ</p>
+        <h2>Доставка и оплата</h2>
+        <div class="steps">
+          <article>
+            <h3>Оставьте заявку</h3>
+            <p>Добавьте товары в корзину и укажите телефон и город доставки.</p>
+          </article>
+          <article>
+            <h3>Согласуем детали</h3>
+            <p>Свяжемся с вами и подтвердим наличие, стоимость доставки, сроки и способ оплаты.</p>
+          </article>
+          <article>
+            <h3>Подтвердите заказ</h3>
+            <p>Оформление заказа не заменяет подтверждение товара и условий доставки.</p>
+          </article>
+        </div>
+      </section>
+      <section class="faq section" id="faq">
+        <p class="kicker">ОТВЕТЫ ПЕРЕД ПОКУПКОЙ</p>
+        <h2>Частые вопросы</h2>
+        <div class="faq-list">
+          <details><summary>Как узнать размеры товара?</summary><p>Размеры указаны в карточке, если продавец добавил их. Если данных нет, напишите вопрос в комментарии к заявке — уточним у продавца.</p></details>
+          <details><summary>Когда привезут заказ?</summary><p>Срок и стоимость доставки зависят от товара и города. Мы сообщим их после получения заявки, до подтверждения заказа.</p></details>
+          <details><summary>Как оплатить заказ?</summary><p>Способ оплаты согласуется после заявки. Мы сообщим доступный вариант до подтверждения заказа.</p></details>
+          <details><summary>Как оформить возврат?</summary><p>Условия возврата зависят от товара и продавца. Запросите сроки и порядок возврата до подтверждения заказа.</p></details>
+          <details><summary>Можно ли заказать другой цвет или изготовление по размеру?</summary><p>Варианты зависят от модели. Укажите пожелания в комментарии к заявке — продавец уточнит возможность.</p></details>
+          <details><summary>Как ухаживать за мебелью?</summary><p>Рекомендации зависят от материала. Запросите инструкцию по конкретной модели при подтверждении заказа.</p></details>
+        </div>
+      </section>
+      <section class="editorial section" id="about">
+        <div class="editorial-copy">
+          <p class="kicker">О NURROOM</p>
+          <h2>Мебель для ежедневного использования</h2>
+          <p>В каталоге можно сравнить столы и стулья по цене, материалу и цвету. Перед подтверждением заказа согласуем наличие, доставку и оплату.</p>
+          <a href="#catalog" class="under-link">Перейти к столам и стульям ↗</a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="logo" href="#top">NURROOM<span>.</span></a>
+      <p>Столы и стулья NURROOM · Доставка по Казахстану · <a href="#delivery">Условия заказа</a> · <a id="footerWhatsapp" target="_blank" rel="noopener noreferrer" hidden>WhatsApp</a></p>
+      <span>© 2026 NURROOM</span>
+    </footer>
+    <div class="overlay" id="cartOverlay"></div>
+    <aside role="dialog" aria-modal="true" class="cart-drawer" id="cartDrawer" aria-label="Корзина">
+      <div class="drawer-head">
+        <div>
+          <p class="kicker">ВАШ ВЫБОР</p>
+          <h2>Корзина</h2>
+        </div>
+        <button class="icon-btn" id="closeCart" aria-label="Закрыть">×</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-bottom">
+        <div class="total-row">
+          <span>Итого</span><strong id="cartTotal">0 ₸</strong>
+        </div>
+        <button class="primary-btn full" id="checkoutBtn">
+          Оформить заказ <span>→</span>
+        </button>
+        <p class="tiny-note">
+          Оплата и доставка согласуются после подтверждения заказа.
+        </p>
+      </div>
+    </aside>
+    <div class="modal-backdrop" id="checkoutModal">
+      <form role="dialog" aria-modal="true" aria-label="Оформление заказа" class="checkout-modal" id="checkoutForm">
+        <div class="modal-head">
+          <div>
+            <p class="kicker">ПОСЛЕДНИЙ ШАГ</p>
+            <h2>Оформление заказа</h2>
+          </div>
+          <button type="button" class="icon-btn" id="closeCheckout" aria-label="Закрыть">×</button>
+        </div>
+        <div id="checkoutFields">
+        <div class="form-grid">
+          <label
+            >Ваше имя<input
+              name="name"
+              required
+              maxlength="120"
+              autocomplete="name"
+              placeholder="Ваше имя" /></label
+          ><label
+            >Телефон<input
+              name="phone"
+              required
+              type="tel"
+              maxlength="32"
+              autocomplete="tel"
+              inputmode="tel" placeholder="+7 7XX XXX XX XX" /></label
+          ><label class="wide"
+            >Город и адрес доставки<input
+              name="address"
+              required
+              maxlength="300"
+              autocomplete="street-address"
+              placeholder="Город, улица, дом" /></label
+          ><label class="wide"
+            >Комментарий<textarea
+              name="comment"
+              maxlength="1000"
+              rows="3"
+              placeholder="Цвет, количество, удобное время звонка..."
+            ></textarea>
+          </label>
+        </div>
+        <div class="checkout-summary">
+          <span>Сумма заказа</span><strong id="checkoutTotal">0 ₸</strong>
+        </div>
+        <p class="form-error" id="formError" role="alert"></p>
+        <button class="primary-btn full" type="submit">
+          Отправить заказ <span>→</span>
+        </button>
+        <p class="tiny-note">
+          Ваши данные будут использованы для связи по заказу.
+        </p>
+        </div>
+        <div id="checkoutSuccess" class="checkout-success" hidden>
+          <p class="kicker" >ЗАКАЗ ПРИНЯТ</p>
+          <h2>Спасибо за заказ!</h2>
+          <p id="successOrderNumber"></p>
+          <p id="whatsAppHint" class="tiny-note" hidden>Откроется чат WhatsApp с магазином и готовым сообщением. Проверьте заказ и нажмите «Отправить»; заказ уже сохранён на сайте.</p>
+          <a id="whatsAppOrderLink" class="primary-btn full whatsapp-order-link" target="_blank" rel="noopener noreferrer" hidden>Отправить заказ в WhatsApp <span>↗</span></a>
+          <button type="button" class="outline-btn full" id="successClose">Готово</button>
+        </div>
+      </form>
+    </div>
+    <div class="toast" id="toast"></div>
+    <div class="modal-backdrop" id="productModal">
+      <section role="dialog" aria-modal="true" aria-labelledby="productDetailName" class="product-modal">
+        <button type="button" class="icon-btn product-modal-close" id="closeProduct" aria-label="Закрыть">×</button>
+        <div class="product-detail-gallery">
+          <img id="productDetailImage" alt="" />
+          <div class="product-thumbnails" id="productThumbnails" aria-label="Фотографии товара"></div>
+        </div>
+        <div class="product-detail-copy">
+          <p class="kicker" id="productDetailCategory"></p>
+          <h2 id="productDetailName"></h2>
+          <p class="product-detail-price" id="productDetailPrice"></p>
+          <p id="productDetailDescription"></p>
+          <dl id="productDetailSpecs" class="product-detail-specs"></dl>
+          <p class="product-detail-delivery">Наличие, стоимость и срок доставки, а также способ оплаты подтвердим перед заказом.</p>
+          <button class="primary-btn full" id="productDetailAdd" type="button">В корзину <span>+</span></button>
+        </div>
+      </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
+    <script src="supabase.js"></script>
+    <script src="store.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

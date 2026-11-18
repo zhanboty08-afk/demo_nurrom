@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; font-src 'self' data:; img-src 'self' https: data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; form-action 'self'; upgrade-insecure-requests" />
+    <title>NURROOM — управление магазином</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="theme.css" />
+  </head>
+  <body>
+    <header class="header">
+      <a class="logo" href="index.html">NURROOM<span>.</span></a
+      ><strong>УПРАВЛЕНИЕ МАГАЗИНОМ</strong><a href="index.html">← В магазин</a>
+    </header>
+    <main class="admin-main">
+      <section id="loginPanel" class="login-panel">
+        <p class="kicker">NURROOM / ADMIN</p>
+        <h1>Вход в админку</h1>
+        <p>Войдите по почте и паролю, которые вы настроите для аккаунта администратора.</p>
+        <div id="authMessage" class="auth-message" role="status" aria-live="polite" hidden></div>
+        <form id="loginForm">
+          <label>Email<input name="email" type="email" autocomplete="username" required /></label>
+          <label>Пароль<input name="password" type="password" autocomplete="current-password" required /></label>
+          <button class="primary-btn full" type="submit">Войти</button>
+        </form>
+        <p class="auth-hint">Вход только для аккаунта, которому выдана роль администратора. Публичной регистрации нет.</p>
+      </section>
+      <section id="dashboard" hidden>
+        <div class="admin-welcome">
+          <div>
+            <p class="kicker">КАТАЛОГ / SUPABASE</p>
+            <h1>Ваши товары</h1>
+            <p>Изменения сразу сохраняются в базе и появляются в магазине.</p>
+          </div>
+          <div class="admin-actions">
+            <button class="outline-btn" id="addProduct">+ Добавить товар</button>
+            <button class="outline-btn" id="logout">Выйти</button>
+          </div>
+        </div>
+        <div class="catalog-toolbar"><input id="productSearch" type="search" placeholder="Найти товар по названию…" aria-label="Поиск товаров"><select id="categoryFilter" aria-label="Фильтр по категории"><option value="">Все категории</option></select><span id="productCount"></span></div>
+        <div id="productList" class="admin-product-list"></div>
+        <div class="admin-welcome orders-heading"><div><p class="kicker">ЗАКАЗЫ</p><h2>Что заказывают</h2><p>Список обновляется автоматически каждые 30 секунд.</p></div><div class="admin-actions"><button class="outline-btn" id="refreshOrders">Обновить</button><button class="outline-btn" id="exportOrders">Скачать CSV</button></div></div>
+        <div id="orderList" class="admin-product-list"></div>
+      </section>
+    </main>
+    <div class="admin-modal-backdrop" id="productModal">
+      <form class="product-form" id="productForm">
+        <div class="modal-head">
+          <div>
+            <p class="kicker">КАТАЛОГ</p>
+            <h2 id="formTitle">Новый товар</h2>
+          </div>
+          <button
+            type="button"
+            class="icon-btn"
+            id="closeModal"
+            aria-label="Закрыть"
+          >
+            ×
+          </button>
+        </div>
+        <input type="hidden" name="id" />
+        <div class="admin-form-grid">
+          <label class="wide"
+            >Название<input name="name" required maxlength="120" /></label
+          ><label
+            >Тип / категория<input
+              name="category"
+              list="categoryOptions"
+              placeholder="Например, Стулья"
+              required /><datalist id="categoryOptions">
+              <option value="Стулья"></option>
+              <option value="Столы"></option></datalist></label
+          ><label
+            >Цена, ₸<input
+              name="price"
+              type="number"
+              min="0"
+              step="1"
+              required /></label
+          ><label
+            >Старая цена, ₸<input
+              name="old_price"
+              type="number"
+              min="0"
+              step="1" /></label
+          ><label>Материал<input name="material" /></label
+          ><label>Цвет<input name="color" /></label
+          ><label>Размеры<input name="dimensions" maxlength="120" placeholder="Например, 120 × 80 × 75 см" /></label
+          ><label>Наличие<select name="availability"><option>Уточнить</option><option>В наличии</option><option>Под заказ</option><option>Нет в наличии</option></select></label
+          ><label class="wide"
+            >Описание<textarea name="description" rows="3"></textarea></label
+          ><label
+            >Метка<input
+              name="badge"
+              placeholder="Новинка, Хит продаж" /></label
+          ><label class="wide">Главное фото по ссылке<input name="image_url" type="url" maxlength="2048" placeholder="https://example.com/photo.jpg"></label><label class="wide">Или загрузите главное фото<input name="photo" type="file" accept="image/jpeg,image/png,image/webp"></label>
+          <label class="wide">Дополнительные фото — HTTPS-ссылки, по одной на строку<textarea name="gallery_urls" rows="3" placeholder="https://example.com/photo-2.jpg"></textarea></label>
+          <label class="wide">Или загрузите дополнительные фото<input name="gallery_files" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+        </div>
+        <img
+          id="imagePreview"
+          class="image-preview"
+          alt="Предпросмотр фото"
+          hidden
+        /><button class="primary-btn full" type="submit">
+          Сохранить товар
+        </button>
+      </form>
+    </div>
+    <div class="toast" id="adminToast"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
+    <script src="supabase.js"></script>
+    <script src="store.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>
